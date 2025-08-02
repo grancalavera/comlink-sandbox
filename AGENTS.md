@@ -29,33 +29,23 @@
 
 ```text
 tasks/
-├── current.md         # Active task (what we're working on now)
-├── backlog.md         # Future tasks/ideas
-└── completed/         # Archive of completed tasks
-    ├── 2025-08-02-milestone-cleanup.md
-    ├── 2025-08-03-feature-xyz.md
-    └── ...
+├── current/           # Active task directory
+│   ├── README.md      # Task description and checklist
+│   └── assets/        # Any related files, screenshots, etc.
+├── backlog.md         # Simple bullet list of future tasks
+└── completed/         # Archive of completed task directories
+    ├── 2025-08-02-remove-vite-template-files/
+    └── 2025-08-02-unit-test-setup-vitest/
 ```
 
 ### Workflow
 
-1. **Start**: Take first item from backlog list, convert it to task in `current.md`:
-   - Title: The text of the item in the backlog.
-   - Description: best guess at what needs to be done.
-   - Checklist: Placeholders for sub-tasks.
-2. **Work**: Update checklist in `current.md` as we progress
-3. **Complete**: Move `current.md` to `completed/YYYY-MM-DD-task-name.md`
+1. **Start**: Take first item from backlog, create `tasks/current/` directory with README.md
+2. **Work**: Update checklist in `tasks/current/README.md` as we progress
+3. **Complete**: Move entire `tasks/current/` directory to `tasks/completed/YYYY-MM-DD-task-name/`
 4. **Repeat**: Take next item from backlog
 
-### Backlog Format
+### Task Directory Format
 
-- Simple bullet list in `backlog.md`.
-- First item = next task.
-
-### Task File Format
-
-Each task includes:
-
-- **Title**: What we're working on
-- **Description**: Clear overview of what needs to be done
-- **Checklist**: Sub-tasks with checkboxes
+- **README.md**: Title, description, and checklist
+- **assets/**: Related files with relative links that stay intact when moved
