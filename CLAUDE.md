@@ -26,6 +26,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - When working on tasks, update the current task file with progress.
 - Always leave an empty line after markdown headers.
 - Always end sentences and bullet point items with a period.
+- When starting new tasks from the backlog, just move the task from the backlog and draft some actions but do not write any code.
 
 ## Task Management System
 
