@@ -1,6 +1,6 @@
 # comlink-sandbox
 
-## Milestone 1
+## Milestone
 
 Remove all files created by the Vite template, leaving only main.tsx and a blank stylesheet.
 
