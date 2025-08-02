@@ -1,4 +1,6 @@
-# Agent Guidelines for comlink-sandbox
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Architecture & Tech Stack
 

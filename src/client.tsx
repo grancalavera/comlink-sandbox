@@ -1,17 +1,17 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
-function Dashboard() {
+function Client() {
   return (
     <div>
-      <h1>Comlink Dashboard</h1>
-      <p>Main application for managing SharedWorker connections.</p>
+      <h1>Comlink Client</h1>
+      <p>This is a client instance loaded in an iframe.</p>
     </div>
   )
 }
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Dashboard />
+    <Client />
   </StrictMode>,
 )
