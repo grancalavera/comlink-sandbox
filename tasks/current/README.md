@@ -1,64 +1,43 @@
-# Add client ui
+# Dashboard layout (no iframe integration)
 
 ## Description
 
-Create user interface for the client instance (/client.html) that will be loaded in iframes by the dashboard, supporting the SharedWorker communication architecture. Will use Radix UI primitives for accessible, unstyled components with CSS modules for styling.
+Create a dashboard layout component that provides a structured interface for displaying various sections and content areas. This task focuses on building the visual layout structure without implementing iframe integration functionality.
 
 ## Design
 
-![Client UI Design](./dashboard-client.png)
+![Dashboard design](./dashboard-layout.png)
 
-**Key UI Elements:**
+The design shows a clean, minimal dashboard layout with the following key elements:
 
-- **Header**: Dynamic title showing "Client" + first 6-8 characters of UUID (e.g., "Client 255e6e...") with close button (X).
-- **Status Section**: "Status:" label with connection status badge ("Online"/"Offline").
-- **Toggle Switch**: For controlling connection state.
-- **ID Display**: Full client UUID shown in gray container.
-- **Card Layout**: Clean, contained design with proper spacing.
+**Header Section:**
 
-## Steps
+- Left side: "Client Dashboard" title in large, bold text.
+- Right side: Dark rounded button with "+" icon and "Add New Client" text.
 
-- [x] Install Radix UI primitive components.
-- [x] Set up CSS modules for component styling.
-- [x] Configure Vite for CSS modules support.
-- [x] Design client interface layout.
-- [x] Create UI components for the client using Radix UI.
-- [x] Add connection status display.
-- [x] Add client controls and information display.
-- [x] Style the client interface with CSS modules.
-- [x] Test client functionality in iframe context.
+**Main Content Area:**
 
-## Notes
+- Centered empty state message: "No clients yet. Click 'Add New Client' to get started." in gray text.
+- Clean white background with plenty of whitespace.
+- Simple, uncluttered layout focused on the call-to-action.
 
-This will create the client interface that runs inside iframes and connects to the SharedWorker for testing port disconnection scenarios. Focus is on the client-side UI only.
+**Design Characteristics:**
 
-### Radix UI Setup Requirements
+- Minimalist approach with lots of white space.
+- High contrast between dark button and light background.
+- Typography appears to use a modern sans-serif font.
+- Responsive-friendly layout with centered content.
+- Empty state design that guides user to the primary action.
 
-- Install individual Radix UI primitive packages as needed.
-- Configure Vite for CSS modules support (.module.css files).
-- Set up TypeScript declarations for CSS modules.
-- Create custom styled wrappers around Radix primitives using CSS modules.
+## Checklist
 
-### Potential Radix UI Components Needed
-
-- @radix-ui/react-button (for client controls).
-- @radix-ui/react-badge (for connection status indicators).
-- @radix-ui/react-separator (for layout organization).
-- @radix-ui/react-card or custom card component (for information display).
-- @radix-ui/react-progress (for connection/activity indicators).
-
-### Directory Structure
-
-```
-features/
-└── client/
-    ├── components/
-    ├── types.ts
-    └── ClientApp.tsx
-```
-
-**Structure:**
-
-- **`components/`** - Client UI components with their CSS modules.
-- **`types.ts`** - TypeScript interfaces for the client feature.
-- **`ClientApp.tsx`** - Main component that orchestrates everything.
+- [ ] Analyze existing codebase structure and components.
+- [ ] Create dashboard feature directory structure.
+- [ ] Implement dashboard header with title and "Add New Client" button.
+- [ ] Create main content area with centered empty state.
+- [ ] Add empty state message and styling.
+- [ ] Implement responsive layout with proper spacing.
+- [ ] Style dashboard with CSS modules following design specs.
+- [ ] Add typography and color scheme matching the design.
+- [ ] Test the dashboard layout in development environment.
+- [ ] Update main app to use dashboard component.
