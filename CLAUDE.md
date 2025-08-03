@@ -28,6 +28,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Always end sentences and bullet point items with a period.
 - When starting new tasks from the backlog, just move the task from the backlog and draft some actions but do not write any code.
 - Always add empty lines around markdown lists.
+- When completing a task always smoke test it manually to ensure it works as expected.
 
 ## Task Management System
 
