@@ -30,6 +30,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Always add empty lines around markdown lists.
 - When completing a task always smoke test it manually to ensure it works as expected.
 - When saying "complete the current task" it means to smoke test it manually, then if all is fine move it to the completed directory, and finally committing your changes.
+- When saying "begin the next task" it means picking up the next task (top in the list) from the backlog, creating the current directory, adding the task as specified in @CLAUDE.md and then making a commit before starting any code changes. If when you try to begin the next task there's still a current task in progress, stop and don't do any changes and just let me know.
+
+## Markdown Formatting Reminders
+
+- ALWAYS add empty line after headers.
+- ALWAYS add empty lines around lists.
+- ALWAYS add empty lines around code blocks.
+- ALWAYS end files with single newline.
 
 ## Testing Best Practices
 
