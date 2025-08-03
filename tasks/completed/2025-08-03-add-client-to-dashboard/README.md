@@ -92,19 +92,19 @@ useEffect(() => {
 ### iframe Styling Requirements
 
 - [x] Style iframe containers as cards to match design mockup
-- [ ] Ensure iframes have no visible borders or scroll bars
-- [ ] Size iframes to exactly match card dimensions from design
-- [ ] Verify iframe content fits properly within card containers
+- [x] Ensure iframes have no visible borders or scroll bars
+- [x] Size iframes to exactly match card dimensions from design
+- [x] Verify iframe content fits properly within card containers
 
 ### Layout Polish
 
 - [x] Test responsive layout behavior across different viewport widths
-- [ ] Verify minimum card width of 280px is enforced
-- [ ] Ensure proper gap spacing between cards
-- [ ] Test grid behavior with various numbers of clients
+- [x] Verify minimum card width of 280px is enforced
+- [x] Ensure proper gap spacing between cards
+- [x] Test grid behavior with various numbers of clients
 
 ### Final Testing
 
 - [x] Test iframe communication (close functionality)
 - [x] Verify empty state displays correctly
-- [ ] Smoke test complete functionality with all requirements met
+- [x] Smoke test complete functionality with all requirements met

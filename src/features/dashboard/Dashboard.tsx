@@ -61,6 +61,7 @@ export function Dashboard() {
                   className={styles.clientIframe}
                   title={`Client ${client.id}`}
                   data-testid={`dashboard-client-iframe-${client.id}`}
+                  scrolling="no"
                 />
               </div>
             ))}
