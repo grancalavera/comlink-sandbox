@@ -15,6 +15,7 @@ Create user interface for the client instance (/client.html) that will be loaded
 - **Toggle Switch**: For controlling connection state.
 - **ID Display**: Full client UUID shown in gray container.
 - **Card Layout**: Clean, contained design with proper spacing.
+- **Card Width**: 250px.
 
 ## Steps
 
