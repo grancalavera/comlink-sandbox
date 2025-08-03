@@ -18,16 +18,15 @@ Create user interface for the client instance (/client.html) that will be loaded
 
 ## Steps
 
-- [ ] Install Radix UI primitive components.
-- [ ] Set up CSS modules for component styling.
-- [ ] Configure Vite for CSS modules support.
-- [ ] Design client interface layout.
-- [ ] Create UI components for the client using Radix UI.
-- [ ] Add connection status display.
-- [ ] Implement SharedWorker connection interface.
-- [ ] Add client controls and information display.
-- [ ] Style the client interface with CSS modules.
-- [ ] Test client functionality in iframe context.
+- [x] Install Radix UI primitive components.
+- [x] Set up CSS modules for component styling.
+- [x] Configure Vite for CSS modules support.
+- [x] Design client interface layout.
+- [x] Create UI components for the client using Radix UI.
+- [x] Add connection status display.
+- [x] Add client controls and information display.
+- [x] Style the client interface with CSS modules.
+- [x] Test client functionality in iframe context.
 
 ## Notes
 
