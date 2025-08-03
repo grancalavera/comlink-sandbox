@@ -32,11 +32,12 @@ export function ClientApp() {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.header}>
-          <span className={styles.clientId}>{client.id}</span>
+          <span className={styles.clientId} data-testid="client-app-id">{client.id}</span>
           <button
             className={styles.closeButton}
             onClick={handleClose}
             aria-label="Close client"
+            data-testid="client-app-close-btn"
           >
             ×
           </button>
@@ -50,10 +51,11 @@ export function ClientApp() {
               }`}
               checked={client.isConnected}
               onCheckedChange={handleToggleConnection}
+              data-testid="client-app-connection-switch"
             >
               <Switch.Thumb className={styles.thumb} />
             </Switch.Root>
-            <span className={styles.statusText}>
+            <span className={styles.statusText} data-testid="client-app-status-text">
               {client.isConnected ? "Online" : "Offline"}
             </span>
           </div>

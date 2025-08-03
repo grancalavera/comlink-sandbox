@@ -29,6 +29,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - When starting new tasks from the backlog, just move the task from the backlog and draft some actions but do not write any code.
 - Always add empty lines around markdown lists.
 - When completing a task always smoke test it manually to ensure it works as expected.
+- When saying "complete the current task" it means to smoke test it manually, then if all is fine move it to the completed directory, and finally committing your changes.
+
+## Testing Best Practices
+
+### data-testid Usage
+
+Only add `data-testid` attributes to elements that are:
+
+- **Interactive elements**: buttons, inputs, links, switches, selects, etc. that users click, type in, or interact with.
+- **Content assertions**: text/status elements that tests need to verify specific content (e.g., status messages, counters, dynamic values).
+
+Do NOT add `data-testid` to:
+
+- **Structural/layout elements**: containers, headers, sections, cards, divs used purely for styling/layout.
+- **Static content**: titles, labels, static text that doesn't change based on application state.
+
+This keeps the DOM clean and focuses test selectors on meaningful interactions and assertions.
 
 ## Task Management System
 
