@@ -1,15 +1,18 @@
 import { Switch } from "radix-ui";
-import { useState } from "react";
-import { clientId } from "../../rpc/client.js";
+import { clientId, useConnection } from "../../rpc/client.js";
 import styles from "./ClientApp.module.css";
 
 export function ClientApp() {
   const urlParams = new URLSearchParams(window.location.search);
   const externalId = urlParams.get("externalId");
-  const [isConnected, setIsConnected] = useState<boolean>(true);
+  const { connect, disconnect, isConnected } = useConnection();
 
   const handleToggleConnection = () => {
-    setIsConnected((prev) => !prev);
+    if (isConnected) {
+      disconnect();
+    } else {
+      connect();
+    }
   };
 
   const handleClose = () => {

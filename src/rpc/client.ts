@@ -1,17 +1,26 @@
-import * as Comlink from "comlink";
-import type { RpcContract } from "./types.js";
+import { useAtomValue, useSetAtom } from "jotai";
+import { 
+  clientId, 
+  connectionTransitionAtom, 
+  isConnectedAtom
+} from "./connection-state.js";
 
-const worker = new SharedWorker(new URL("./worker.ts", import.meta.url), {
-  type: "module",
-  name: "shared-worker-network-rpc",
-});
+// Hook to get connection status
+export function useIsConnected(): boolean {
+  return useAtomValue(isConnectedAtom);
+}
 
-worker.port.start();
+// Hook to get connection actions
+export function useConnection() {
+  const setConnectionState = useSetAtom(connectionTransitionAtom);
+  const isConnected = useAtomValue(isConnectedAtom);
+  
+  return {
+    connect: () => setConnectionState("connected"),
+    disconnect: () => setConnectionState("disconnected"),
+    isConnected,
+  };
+}
 
-export const clientId = crypto.randomUUID();
-export const rpcClient = Comlink.wrap<RpcContract>(worker.port);
-
-navigator.locks.request(clientId, () => {
-  rpcClient.registerClient(clientId);
-  return new Promise<void>(() => {});
-});
+// Export clientId for external use
+export { clientId };

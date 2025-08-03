@@ -34,17 +34,17 @@ Implement a SharedWorker-based RPC (Remote Procedure Call) communication system 
   - [x] Improved code formatting across components
 - [x] Update project backlog with new tasks
 - [x] Design and document connection state machine with connect/disconnect API
-- [ ] Create Jotai atoms for connection state management
-  - [ ] Base connection state atom (idle/connected/disconnected)
-  - [ ] State transition atom with side effects
-  - [ ] Derived atom for connection status
-- [ ] Refactor RPC client API
-  - [ ] Remove module-level registration call
-  - [ ] Implement connect() function with state machine integration
-  - [ ] Implement disconnect() function
-  - [ ] Export clean API (connect, disconnect, clientId)
-- [ ] Update ClientApp to use new connect/disconnect API
-- [ ] Test state machine behavior (registration only on first connect)
+- [x] Create Jotai atoms for connection state management
+  - [x] Base connection state atom (idle/connected/disconnected)
+  - [x] State transition atom with side effects
+  - [x] Derived atom for connection status
+- [x] Refactor RPC client API
+  - [x] Remove module-level registration call
+  - [x] Implement React hooks for state management integration
+  - [x] Export clean useConnection hook API
+  - [x] Add Jotai Provider to client and dashboard entry points
+- [x] Update ClientApp to use new connect/disconnect API
+- [x] Test state machine behavior (registration only on first connect)
 
 ## Implementation Notes
 
