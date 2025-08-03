@@ -1,9 +1,39 @@
+import { useState, useEffect } from "react";
 import styles from "./Dashboard.module.css";
 
+interface Client {
+  id: string;
+  createdAt: Date;
+}
+
 export function Dashboard() {
+  const [clients, setClients] = useState<Client[]>([]);
+
   const handleAddNewClient = () => {
-    console.log("Add new client clicked");
+    const newClient: Client = {
+      id: crypto.randomUUID(),
+      createdAt: new Date(),
+    };
+    setClients(prev => [...prev, newClient]);
   };
+
+  const removeClient = (clientId: string) => {
+    setClients(prev => prev.filter(client => client.id !== clientId));
+  };
+
+  useEffect(() => {
+    const handleClientMessage = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
+      
+      const { type, clientId } = event.data;
+      if (type === 'CLOSE_CLIENT') {
+        removeClient(clientId);
+      }
+    };
+    
+    window.addEventListener('message', handleClientMessage);
+    return () => window.removeEventListener('message', handleClientMessage);
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -16,11 +46,26 @@ export function Dashboard() {
       </header>
       
       <main className={styles.main}>
-        <div className={styles.emptyState}>
-          <p className={styles.emptyMessage} data-testid="dashboard-empty-message">
-            No clients yet. Click "Add New Client" to get started.
-          </p>
-        </div>
+        {clients.length === 0 ? (
+          <div className={styles.emptyState}>
+            <p className={styles.emptyMessage} data-testid="dashboard-empty-message">
+              No clients yet. Click "Add New Client" to get started.
+            </p>
+          </div>
+        ) : (
+          <div className={styles.clientGrid} data-testid="dashboard-client-grid">
+            {clients.map((client) => (
+              <div key={client.id} className={styles.clientCard}>
+                <iframe
+                  src={`/client.html?clientId=${client.id}`}
+                  className={styles.clientIframe}
+                  title={`Client ${client.id}`}
+                  data-testid={`dashboard-client-iframe-${client.id}`}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </main>
     </div>
   );

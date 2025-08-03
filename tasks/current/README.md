@@ -2,15 +2,51 @@
 
 ## Description
 
-Implement the functionality to dynamically add and display client instances within the dashboard using iframes, as described in the README. Clients are loaded as iframes pointing to the separate client entry point, with communication between dashboard and clients via postMessage API. Clients must be laid out from left to right in row-major order.
+Implement the functionality to dynamically add and display client instances within the dashboard using iframes, as described in the main README. The dashboard serves as the main application entry point that allows loading client instances. Each client is loaded as an iframe pointing to the separate client entry point (`/client.html`), with communication between dashboard and clients via postMessage API. The iframes should be displayed as compact cards in a responsive grid layout that adapts to window width, as shown in the design.
 
-## Architecture
+## Design
 
-### iframe ↔ Parent Window Communication
+![Client Layout](./client-layout-in-dashboard.png)
+
+## Requirements
+
+### iframe Implementation
+
+- Each client must be loaded in an iframe pointing to `/client.html`
+- iframes must have no visible styling (transparent borders, no scroll bars)
+- iframe containers styled as cards to match the design mockup
+- iframes must be sized to exactly match the card dimensions shown in design
+
+### Layout Requirements
+
+- Responsive CSS Grid layout that adapts to viewport width
+- Cards arranged from left to right in row-major order
+- Grid uses `auto-fill` to accommodate different screen sizes
+- Minimum card width of 280px with appropriate gap spacing
+
+### Communication Requirements
 
 - Use `window.postMessage` API for cross-frame communication
-- Client iframe sends messages to parent dashboard when events occur
-- Dashboard listens for messages and updates its state accordingly
+- Client iframes send `CLOSE_CLIENT` messages to parent dashboard
+- Dashboard listens for messages and updates state accordingly
+- Dashboard generates unique client IDs and passes them to iframes via URL parameter
+- Clients must use the ID provided by the dashboard (not generate their own)
+
+### State Management Requirements
+
+- Dashboard tracks active clients with unique IDs
+- Add New Client button creates new client instances
+- Client removal handled via postMessage from iframe
+- Empty state displayed when no clients exist
+
+## Implementation
+
+### iframe Architecture
+
+- Dashboard generates unique client IDs and creates iframe elements pointing to `/client.html?clientId=${id}`
+- Each client reads its ID from URL parameters provided by the dashboard
+- iframe containers styled as cards with gray background and rounded corners
+- Communication between dashboard and clients via postMessage API
 
 ### Client-side Implementation (in iframe)
 
@@ -43,10 +79,32 @@ useEffect(() => {
 
 ## Checklist
 
+### Basic Implementation
+
 - [x] Analyze existing dashboard structure and client-related code
-- [ ] Update Dashboard state management to track active clients
-- [ ] Implement Add Client functionality with iframe integration
-- [ ] Create Client display components with iframe wrapper (left-to-right row-major layout)
-- [ ] Add Client management features (removal, iframe communication)
-- [ ] Test client addition, removal, and iframe communication
-- [ ] Smoke test complete functionality
+- [x] Update Dashboard state management to track active clients
+- [x] Implement Add Client functionality with iframe integration
+- [x] Create responsive grid layout matching design specifications
+- [x] Add Client management features (removal via postMessage)
+- [x] Set up iframe communication with postMessage API
+- [x] Pass client ID to iframe via URL parameter
+
+### iframe Styling Requirements
+
+- [x] Style iframe containers as cards to match design mockup
+- [ ] Ensure iframes have no visible borders or scroll bars
+- [ ] Size iframes to exactly match card dimensions from design
+- [ ] Verify iframe content fits properly within card containers
+
+### Layout Polish
+
+- [x] Test responsive layout behavior across different viewport widths
+- [ ] Verify minimum card width of 280px is enforced
+- [ ] Ensure proper gap spacing between cards
+- [ ] Test grid behavior with various numbers of clients
+
+### Final Testing
+
+- [x] Test iframe communication (close functionality)
+- [x] Verify empty state displays correctly
+- [ ] Smoke test complete functionality with all requirements met

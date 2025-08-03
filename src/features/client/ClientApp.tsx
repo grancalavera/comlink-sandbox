@@ -3,9 +3,10 @@ import { Switch } from "radix-ui";
 import type { ClientState } from "./types";
 import styles from "./ClientApp.module.css";
 
-const clientId = crypto.randomUUID();
-
 export function ClientApp() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const clientId = urlParams.get('clientId') || crypto.randomUUID();
+  
   const [client, setClient] = useState<ClientState>(() => ({
     id: clientId,
     isConnected: true,
@@ -19,8 +20,10 @@ export function ClientApp() {
   };
 
   const handleClose = () => {
-    // In a real implementation, this would communicate with the parent window
-    console.log("Client close requested");
+    window.parent.postMessage({
+      type: 'CLOSE_CLIENT',
+      clientId: client.id
+    }, '*');
   };
 
   useEffect(() => {
