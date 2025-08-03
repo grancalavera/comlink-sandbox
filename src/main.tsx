@@ -1,14 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-
-function Dashboard() {
-  return (
-    <div>
-      <h1>Comlink Dashboard</h1>
-      <p>Main application for managing SharedWorker connections.</p>
-    </div>
-  )
-}
+import { Dashboard } from './features/dashboard/Dashboard'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

@@ -1,0 +1,68 @@
+.container {
+  min-height: 100vh;
+  background-color: white;
+  padding: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.addButton {
+  background-color: #1f2937;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.addButton:hover {
+  background-color: #374151;
+}
+
+.addButton:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.addIcon {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.emptyState {
+  text-align: center;
+}
+
+.emptyMessage {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+}
