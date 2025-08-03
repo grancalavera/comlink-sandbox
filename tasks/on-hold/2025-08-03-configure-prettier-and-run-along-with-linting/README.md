@@ -12,3 +12,7 @@ Set up Prettier code formatter to work alongside ESLint and create a unified `np
 - [ ] Add `npm run check` script that runs both lint and format checks
 - [ ] Test the new command works correctly
 - [ ] Update any existing scripts if needed
+
+## On Hold Reason
+
+Task put on hold per user request on 2025-08-03.
