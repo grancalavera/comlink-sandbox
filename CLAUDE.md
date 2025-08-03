@@ -31,6 +31,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - When completing a task always smoke test it manually to ensure it works as expected.
 - When saying "complete the current task" it means to smoke test it manually, then if all is fine move it to the completed directory, and finally committing your changes.
 - When saying "begin the next task" it means picking up the next task (top in the list) from the backlog, creating the current directory, adding the task as specified in @CLAUDE.md and then making a commit before starting any code changes. If when you try to begin the next task there's still a current task in progress, stop and don't do any changes and just let me know.
+- When saying "put the current task on hold" it means you need to follow the workflow to put the task on-hold, and commit all the current changes.
 
 ## Markdown Formatting Reminders
 
@@ -64,10 +65,14 @@ tasks/
 ├── current/           # Active task directory
 │   └── README.md      # Task description and checklist
 ├── backlog.md         # Simple bullet list of future tasks
-└── completed/         # Archive of completed task directories
-    ├── 2025-08-02-remove-vite-template-files/
-    │   └── README.md
-    ├── 2025-08-02-unit-test-setup-vitest/
+├── completed/         # Archive of completed task directories
+│   ├── 2025-08-02-remove-vite-template-files/
+│   │   └── README.md
+│   ├── 2025-08-02-unit-test-setup-vitest/
+│   │   └── README.md
+│   └── ...
+└── on-hold/           # Tasks that cannot be completed or are paused
+    ├── 2025-08-03-task-name/
     │   └── README.md
     └── ...
 ```
@@ -80,7 +85,8 @@ tasks/
    - Checklist: Placeholders for sub-tasks.
 2. **Work**: Update checklist in `tasks/current/README.md` as we progress.
 3. **Complete**: Move entire `tasks/current/` directory to `tasks/completed/YYYY-MM-DD-task-name/`.
-4. **Repeat**: Take next item from backlog.
+4. **On-hold**: When a task cannot be completed or we want to work on another task, move entire `tasks/current/` directory to `tasks/on-hold/YYYY-MM-DD-task-name/` with reason noted in README.md.
+5. **Repeat**: Take next item from backlog.
 
 ### Backlog Format
 
