@@ -13,7 +13,7 @@ Add a subscription system to the SharedWorker RPC that allows clients to subscri
 ## Checklist
 
 - [ ] Add subscription state management to ComlinkWorker class
-- [ ] Implement subscribe method that returns current value and sets up notifications  
+- [ ] Implement subscribe method that returns current value and sets up notifications
 - [ ] Implement unsubscribe method for cleanup
 - [ ] Add interval timer that increments counter and notifies subscribers
 - [ ] Update RPC types to include subscription methods
@@ -23,16 +23,27 @@ Add a subscription system to the SharedWorker RPC that allows clients to subscri
 ## Technical Requirements
 
 ### Worker State
+
 - Counter starts at 0
 - Increment rate: 1 per second
 - Track active subscribers
 
 ### Subscription API
-- `subscribe()`: Returns current value, adds client to notification list
-- `unsubscribe()`: Removes client from notification list  
+
+- `getCounterValue()`: Returns current counter value
+- `subscribe(clientId, observer)`: Returns a subscription
+- `subscription.unsubscribe()`: Call unsubscribe on the subscription
+- Observer interface: `{ next, error?, complete? }`
 - Automatic cleanup on client disconnect
 
 ### Notification System
+
 - All active subscribers receive updates simultaneously
 - New subscribers get current value immediately
 - Next update includes new subscribers in the same cycle
+
+### Key Design Decisions
+
+- **Lazy Counter**: Only runs when there are subscribers
+- **Immediate Value**: New subscribers get current counter value via getter
+- **Comlink Callbacks**: Uses `Comlink.proxy()` for real-time notifications across worker boundary

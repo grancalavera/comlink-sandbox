@@ -22,7 +22,7 @@ const worker = new SharedWorker(new URL("./worker.ts", import.meta.url), {
 worker.port.start();
 
 export const clientId = crypto.randomUUID();
-const rpcClient = Comlink.wrap<RpcContract>(worker.port);
+export const rpcClient = Comlink.wrap<RpcContract>(worker.port);
 
 // State transition atom with side effects
 export const connectionTransitionAtom = atom(
