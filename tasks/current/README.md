@@ -1,96 +1,38 @@
-# Implement SharedWorker-based RPC communication using Comlink
+# Implement subscription system in SharedWorker RPC
 
 ## Description
 
-Implement a SharedWorker-based RPC (Remote Procedure Call) communication system using Comlink to enable communication between the dashboard and client iframes. This creates a shared worker that can manage client registration and provide RPC services across multiple client instances.
+Add a subscription system to the SharedWorker RPC that allows clients to subscribe to a counter that increments every second. The subscription system should:
+
+- Maintain an underlying numeric state (default value: 0)
+- When a new subscriber connects, start incrementing the value 1 time per second
+- Notify all subscribers on each increment
+- Allow new subscribers to read the current value immediately
+- New subscribers join the current increment cycle (don't start from 0)
 
 ## Checklist
 
-- [x] Install Comlink and Jotai dependencies
-- [x] Create RPC types and contract interface (`src/rpc/types.ts`)
-- [x] Implement SharedWorker with Comlink (`src/rpc/worker.ts`)
-  - [x] ComlinkWorker class with registerClient and echo methods
-  - [x] Client registration using navigator locks
-  - [x] SharedWorker event handling for port connections
-- [x] Implement RPC client wrapper (`src/rpc/client.ts`)
-  - [x] SharedWorker initialization with Comlink
-  - [x] Generate unique client ID using crypto.randomUUID()
-  - [x] Client registration with navigator locks
-  - [x] Export rpcClient for use across components
-- [x] Update TypeScript configuration
-  - [x] Add WebWorker lib support for SharedWorker types
-- [x] Refactor ClientApp component
-  - [x] Distinguish between internal RPC clientId and external dashboard clientId
-  - [x] Use RPC-generated clientId for display
-  - [x] Simplify state management (remove ClientState type)
-  - [x] Conditional close button based on externalId presence
-- [x] Update Dashboard component
-  - [x] Import RPC client to initialize system
-  - [x] Remove createdAt from Client interface
-  - [x] Use externalId parameter for iframe URLs
-- [x] Code formatting improvements
-  - [x] Consistent quote usage (double quotes)
-  - [x] Proper semicolon usage
-  - [x] Improved code formatting across components
-- [x] Update project backlog with new tasks
-- [x] Design and document connection state machine with connect/disconnect API
-- [x] Create Jotai atoms for connection state management
-  - [x] Base connection state atom (idle/connected/disconnected)
-  - [x] State transition atom with side effects
-  - [x] Derived atom for connection status
-- [x] Refactor RPC client API
-  - [x] Remove module-level registration call
-  - [x] Implement React hooks for state management integration
-  - [x] Export clean useConnection hook API
-  - [x] Add Jotai Provider to client and dashboard entry points
-- [x] Update ClientApp to use new connect/disconnect API
-- [x] Test state machine behavior (registration only on first connect)
+- [ ] Add subscription state management to ComlinkWorker class
+- [ ] Implement subscribe method that returns current value and sets up notifications  
+- [ ] Implement unsubscribe method for cleanup
+- [ ] Add interval timer that increments counter and notifies subscribers
+- [ ] Update RPC types to include subscription methods
+- [ ] Test subscription system with multiple clients
+- [ ] Update client code to demonstrate subscription usage
 
-## Implementation Notes
+## Technical Requirements
 
-The RPC system uses SharedWorker to enable communication between multiple client iframes and the dashboard. Each client gets a unique ID from the RPC system and registers itself using navigator locks. The dashboard passes an external ID to distinguish between different client instances while the RPC system manages internal client identification.
+### Worker State
+- Counter starts at 0
+- Increment rate: 1 per second
+- Track active subscribers
 
-## Connection State Machine
+### Subscription API
+- `subscribe()`: Returns current value, adds client to notification list
+- `unsubscribe()`: Removes client from notification list  
+- Automatic cleanup on client disconnect
 
-The client connection follows a state machine pattern to ensure registration only happens once:
-
-```mermaid
-stateDiagram-v2
-    [*] --> idle
-    idle --> connected : connect() / registerClient()
-    connected --> disconnected : disconnect()
-    disconnected --> connected : connect()
-```
-
-- **idle**: Initial state before first connection
-- **connected**: Client is connected and active
-- **disconnected**: Client is disconnected but previously registered
-- **registerClient() side effect**: Only triggered on the first `idle → connected` transition
-
-## Planned API Improvements
-
-### Clean RPC Client API
-
-Refactor `src/rpc/client.ts` to expose a cleaner API:
-
-```typescript
-// Proposed API
-export function connect(): void;
-export function disconnect(): void;
-export const clientId: string;
-```
-
-### Implementation Plan
-
-1. **Remove immediate registration**: Remove the module-level `navigator.locks.request` call
-2. **Create Jotai store**: Implement connection state machine using Jotai atoms
-3. **State-driven registration**: Move registration logic into the state transition (waiting → online)
-4. **Export clean functions**: Provide `connect()` and `disconnect()` functions that update the state
-5. **Hide complexity**: The Jotai abstraction handles state transitions and side effects internally
-
-### Benefits
-
-- **Clean API**: Simple `connect()`/`disconnect()` functions instead of boolean state
-- **Single registration**: Registration only happens once, on first connect
-- **Concurrent safe**: Jotai handles React's concurrent rendering properly
-- **State machine clarity**: Clear state transitions with explicit side effects
+### Notification System
+- All active subscribers receive updates simultaneously
+- New subscribers get current value immediately
+- Next update includes new subscribers in the same cycle
