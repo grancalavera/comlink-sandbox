@@ -37,7 +37,7 @@ class ComlinkWorker implements RpcContract {
     }
 
     const subscription = {
-      unsubscribe: () => this.unsubscribe(clientId)
+      unsubscribe: () => this.unsubscribe(clientId),
     };
 
     return Comlink.proxy(subscription);
