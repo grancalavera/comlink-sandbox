@@ -71,7 +71,11 @@ tasks/
 │   ├── 2025-08-02-unit-test-setup-vitest/
 │   │   └── README.md
 │   └── ...
-└── on-hold/           # Tasks that cannot be completed or are paused
+├── on-hold/           # Tasks that cannot be completed or are paused
+│   ├── 2025-08-03-task-name/
+│   │   └── README.md
+│   └── ...
+└── rejected/          # Tasks that were deemed unnecessary or inappropriate
     ├── 2025-08-03-task-name/
     │   └── README.md
     └── ...
@@ -86,7 +90,8 @@ tasks/
 2. **Work**: Update checklist in `tasks/current/README.md` as we progress.
 3. **Complete**: Move entire `tasks/current/` directory to `tasks/completed/YYYY-MM-DD-task-name/`.
 4. **On-hold**: When a task cannot be completed or we want to work on another task, move entire `tasks/current/` directory to `tasks/on-hold/YYYY-MM-DD-task-name/` with reason noted in README.md.
-5. **Repeat**: Take next item from backlog.
+5. **Rejected**: Move a task directory to `tasks/rejected/YYYY-MM-DD-task-name/` with optional reason for rejection noted in README.md.
+6. **Repeat**: Take next item from backlog.
 
 ### Backlog Format
 
