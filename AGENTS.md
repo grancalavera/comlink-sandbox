@@ -75,7 +75,7 @@ tasks/
 │   ├── 2025-08-03-task-name/
 │   │   └── README.md
 │   └── ...
-└── rejected/          # Tasks that were deemed unnecessary or inappropriate
+└── rejected/          # Completed tasks that were rejected during user testing
     ├── 2025-08-03-task-name/
     │   └── README.md
     └── ...
