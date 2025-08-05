@@ -56,6 +56,16 @@ Do NOT add `data-testid` to:
 
 This keeps the DOM clean and focuses test selectors on meaningful interactions and assertions.
 
+### Manual Smoke Testing
+
+Always perform manual smoke testing using browser automation tools (puppeteer) when working on UI/styling tasks:
+
+- **Why it's critical**: Code-only analysis can miss visual issues, layout problems, and CSS cascade conflicts that only appear in the actual browser.
+- **When to use**: For any task involving styling, layout, responsive design, or visual components.
+- **How to test**: Use puppeteer tools to navigate to pages, take screenshots, inspect element dimensions, and verify visual behavior.
+- **Real example**: A client component may have correct CSS (`width: 280px`) but actually render at `236px` due to flexbox compression - only visible through browser inspection.
+- **Best practice**: Test both standalone pages and embedded contexts (like iframes) to ensure consistent appearance across all use cases.
+
 ## Task Management System
 
 ### Structure
