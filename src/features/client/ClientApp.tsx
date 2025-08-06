@@ -1,10 +1,9 @@
-import { useState } from "react";
 import styles from "./ClientApp.module.css";
+import { clientId } from "../../utils/uuid";
 
 export function ClientApp() {
   const urlParams = new URLSearchParams(window.location.search);
   const externalId = urlParams.get("externalId");
-  const [clientId] = useState(() => Math.random().toString(36).substring(7));
 
   const handleClose = () => {
     if (!externalId) {
