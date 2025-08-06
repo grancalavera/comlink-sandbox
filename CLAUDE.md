@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to coding agents when working with code in this repository.
 
 ## Architecture & Tech Stack
 
@@ -30,7 +30,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Always add empty lines around markdown lists.
 - When completing a task always smoke test it manually to ensure it works as expected.
 - When saying "complete the current task" it means to smoke test it manually, then if all is fine move it to the completed directory, and finally committing your changes.
-- When saying "begin the next task" it means picking up the next task (top in the list) from the backlog, creating the current directory, adding the task as specified in @CLAUDE.md and then making a commit before starting any code changes. If when you try to begin the next task there's still a current task in progress, stop and don't do any changes and just let me know.
+- When saying "begin the next task" it means picking up the next task (top in the list) from the backlog, creating the current directory, adding the task as specified in this file and then making a commit before starting any code changes. If when you try to begin the next task there's still a current task in progress, stop and don't do any changes and just let me know.
 - When saying "put the current task on hold" it means you need to follow the workflow to put the task on-hold, and commit all the current changes.
 
 ## Markdown Formatting Reminders
@@ -55,6 +55,16 @@ Do NOT add `data-testid` to:
 - **Static content**: titles, labels, static text that doesn't change based on application state.
 
 This keeps the DOM clean and focuses test selectors on meaningful interactions and assertions.
+
+### Manual Smoke Testing
+
+Always perform manual smoke testing using browser automation tools (puppeteer) when working on UI/styling tasks:
+
+- **Why it's critical**: Code-only analysis can miss visual issues, layout problems, and CSS cascade conflicts that only appear in the actual browser.
+- **When to use**: For any task involving styling, layout, responsive design, or visual components.
+- **How to test**: Use puppeteer tools to navigate to pages, take screenshots, inspect element dimensions, and verify visual behavior.
+- **Real example**: A client component may have correct CSS (`width: 280px`) but actually render at `236px` due to flexbox compression - only visible through browser inspection.
+- **Best practice**: Test both standalone pages and embedded contexts (like iframes) to ensure consistent appearance across all use cases.
 
 ## Task Management System
 
