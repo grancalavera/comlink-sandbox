@@ -32,6 +32,7 @@ This file provides guidance to coding agents when working with code in this repo
 - When saying "complete the current task" it means to smoke test it manually, then if all is fine move it to the completed directory, and finally committing your changes.
 - When saying "begin the next task" it means picking up the next task (top in the list) from the backlog, creating the current directory, adding the task as specified in this file and then making a commit before starting any code changes. If when you try to begin the next task there's still a current task in progress, stop and don't do any changes and just let me know.
 - When saying "put the current task on hold" it means you need to follow the workflow to put the task on-hold, and commit all the current changes.
+- When saying "this is good", automatically add and commit the changes with a descriptive commit message, and confirm that I was told "this is good".
 
 ## Markdown Formatting Reminders
 
