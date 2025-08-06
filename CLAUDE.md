@@ -22,7 +22,7 @@ This file provides guidance to coding agents when working with code in this repo
 
 ## Development Etiquette
 
-- Don't start dev server, assume it's running.
+- Don't start dev server, assume it's running. If the dev server is not running, ask me to start it.
 - When working on tasks, update the current task file with progress.
 - Always leave an empty line after markdown headers.
 - Always end sentences and bullet point items with a period.
