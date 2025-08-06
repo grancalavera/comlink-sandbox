@@ -8,10 +8,11 @@ See ![Remove switches](./remove-switches.png)
 
 ## Checklist
 
-- [ ] Remove entire src/rpc/ directory
-- [ ] Remove jotai and comlink dependencies from package.json
-- [ ] Simplify ClientApp.tsx (remove switches, RPC, subscriptions)
-- [ ] Remove switch-related CSS styles from ClientApp.module.css
-- [ ] Test that simplified client renders correctly
-- [ ] Test standalone client loading still works
-- [ ] Commit the changes now
+- [x] Remove entire src/rpc/ directory
+- [x] Remove jotai and comlink dependencies from package.json
+- [x] Simplify ClientApp.tsx (remove switches, RPC, subscriptions)
+- [x] Remove switch-related CSS styles from ClientApp.module.css
+- [x] Test that simplified client renders correctly
+- [x] Test standalone client loading still works
+- [x] Commit the changes now
+- [x] Remove the counter from the client as well

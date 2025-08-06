@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import styles from "./Dashboard.module.css";
-import "../../rpc/client";
 
 interface Client {
   id: string;
@@ -70,7 +69,6 @@ export function Dashboard() {
                   className={styles.clientIframe}
                   title={`Client ${client.id}`}
                   data-testid={`dashboard-client-iframe-${client.id}`}
-                  scrolling="no"
                 />
               </div>
             ))}
