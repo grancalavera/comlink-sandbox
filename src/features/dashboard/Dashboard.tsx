@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./Dashboard.module.css";
+import { RpcTest } from "../../components/RpcTest";
 
 interface Client {
   id: string;
@@ -46,6 +47,8 @@ export function Dashboard() {
           Add New Client
         </button>
       </header>
+
+      <RpcTest />
 
       <main className={styles.main}>
         {clients.length === 0 ? (

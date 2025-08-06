@@ -16,7 +16,7 @@ interface RpcClient {
 
 The worker-side interface is derived using a generic utility type:
 
-```typescript
+```typescript typescript
 type RpcWorker = WithIndexedOperations<RpcClient>;
 // Results in: { registerClient: (clientId: string) => Promise<void> }
 ```
@@ -68,12 +68,12 @@ class RpcWorker {
 
 ## Checklist
 
-- [ ] Install comlink dependency
-- [ ] Create generic `WithIndexedOperations<T>` utility type (`src/lib/rpc-types.ts`)
-- [ ] Create RpcClient interface and RpcWorker type definition (`src/rpc/types.ts`)
-- [ ] Implement RpcClient class for main thread logic (`src/rpc/RpcClient.ts`)
-- [ ] Implement RpcWorker class for worker thread logic (`src/rpc/RpcWorker.ts`)
-- [ ] Create client.ts binding file with Comlink connection
-- [ ] Create worker.ts binding file with Comlink exposure
-- [ ] Update TypeScript configuration for WebWorker lib support
-- [ ] Test basic RPC communication between main thread and SharedWorker
+- [x] Install comlink dependency
+- [x] Create generic `WithIndexedOperations<T>` utility type (`src/lib/rpc-types.ts`)
+- [x] Create RpcClient interface and RpcWorker type definition (`src/rpc/types.ts`)
+- [x] Implement RpcClient class for main thread logic (`src/rpc/RpcClient.ts`)
+- [x] Implement RpcWorker class for worker thread logic (`src/rpc/RpcWorker.ts`)
+- [x] Create client.ts binding file with Comlink connection
+- [x] Create worker.ts binding file with Comlink exposure
+- [x] Update TypeScript configuration for WebWorker lib support (already configured)
+- [x] Test basic RPC communication between main thread and SharedWorker (RpcTest component added to Dashboard)
