@@ -16,7 +16,10 @@
   font-weight: 700;
   color: #1f2937;
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 .addButton {
@@ -32,7 +35,10 @@
   align-items: center;
   gap: 0.5rem;
   transition: background-color 0.2s;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 .addButton:hover {
@@ -65,7 +71,10 @@
   font-size: 1rem;
   color: #6b7280;
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 .clientGrid {

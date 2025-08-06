@@ -43,7 +43,7 @@ Starting with a minimal `RpcClient` interface:
 
 ```typescript
 interface RpcClient {
-  registerClient: () => Promise<void>
+  registerClient: () => Promise<void>;
 }
 ```
 

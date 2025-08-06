@@ -52,10 +52,13 @@ Implement the functionality to dynamically add and display client instances with
 
 ```typescript
 const handleClose = () => {
-  window.parent.postMessage({
-    type: 'CLOSE_CLIENT',
-    clientId: client.id
-  }, '*');
+  window.parent.postMessage(
+    {
+      type: "CLOSE_CLIENT",
+      clientId: client.id,
+    },
+    "*"
+  );
 };
 ```
 
@@ -65,15 +68,15 @@ const handleClose = () => {
 useEffect(() => {
   const handleClientMessage = (event: MessageEvent) => {
     if (event.origin !== window.location.origin) return;
-    
+
     const { type, clientId } = event.data;
-    if (type === 'CLOSE_CLIENT') {
+    if (type === "CLOSE_CLIENT") {
       removeClient(clientId);
     }
   };
-  
-  window.addEventListener('message', handleClientMessage);
-  return () => window.removeEventListener('message', handleClientMessage);
+
+  window.addEventListener("message", handleClientMessage);
+  return () => window.removeEventListener("message", handleClientMessage);
 }, []);
 ```
 

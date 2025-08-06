@@ -12,11 +12,11 @@ export function Dashboard() {
     const newClient: Client = {
       id: crypto.randomUUID(),
     };
-    setClients((prev) => [...prev, newClient]);
+    setClients(prev => [...prev, newClient]);
   };
 
   const removeClient = (clientId: string) => {
-    setClients((prev) => prev.filter((client) => client.id !== clientId));
+    setClients(prev => prev.filter(client => client.id !== clientId));
   };
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export function Dashboard() {
             className={styles.clientGrid}
             data-testid="dashboard-client-grid"
           >
-            {clients.map((client) => (
+            {clients.map(client => (
               <div key={client.id} className={styles.clientCard}>
                 <iframe
                   src={`/client.html?externalId=${client.id}`}
