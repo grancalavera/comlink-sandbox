@@ -29,7 +29,6 @@ interface Registerable {
 
 And I don't have to write the proxies by hand.
 
-
 Reference implementation made by one of your siblings:
 
 ```typescript
@@ -48,12 +47,12 @@ class Registrar<T extends Registerable> {
 
   async ensureRegistered(): Promise<void> {
     if (this.isRegistered) return
-    
+
     if (this.registerPromise) {
       await this.registerPromise
       return
     }
-    
+
     this.registerPromise = this.client.register()
     await this.registerPromise
     this.isRegistered = true
@@ -80,17 +79,17 @@ function createAutoRegisterProxy<T extends Registerable>(
   return new Proxy(client, {
     get(target, prop: string | symbol) {
       const value = target[prop as keyof T]
-      
+
       // If it's not a function, return as-is
       if (typeof value !== 'function') {
         return value
       }
-      
+
       // If it's the register method, return it directly
       if (prop === 'register') {
         return value
       }
-      
+
       // For all other methods, wrap them to ensure registration
       return async function(...args: any[]) {
         await registrar.ensureRegistered()
@@ -121,7 +120,7 @@ class MockRegistrar<T extends Registerable> extends Registrar<T> {
   async ensureRegistered(): Promise<void> {
     this.ensureRegisteredCallCount++
     if (this.mockRegistered) return
-    
+
     // For testing, we can control when registration happens
     await super.ensureRegistered()
     this.mockRegistered = true
@@ -168,19 +167,19 @@ async function example() {
   // Testing usage - use mock registrar for testing
   const mockRegistrar = new MockRegistrar(testClient)
   const testProxy = createAutoRegisterProxy(mockRegistrar)
-  
+
   await testProxy.operation1()
   console.log(`ensureRegistered called ${mockRegistrar.ensureRegisteredCallCount} times`)
-  
+
   testProxy.operation2()
   console.log(`ensureRegistered called ${mockRegistrar.ensureRegisteredCallCount} times total`)
-  
+
   const result = await testProxy.operation3('test')
   console.log(`Result: ${result}, ensureRegistered called ${mockRegistrar.ensureRegisteredCallCount} times total`)
 
   // You can also check registration status
   console.log(`Registration status: ${mockRegistrar.getRegistrationStatus()}`)
-  
+
   // Create a new registrar for fresh testing
   const freshRegistrar = new MockRegistrar(testClient)
   const freshProxy = createAutoRegisterProxy(freshRegistrar)
@@ -191,10 +190,10 @@ async function example() {
 // Simple unit test example
 async function unitTest() {
   console.log('--- Unit Test Example ---')
-  
+
   let registerCalled = false
   let op1Called = false
-  
+
   const mockClient: Client = {
     register: async () => {
       registerCalled = true
@@ -207,23 +206,23 @@ async function unitTest() {
     operation2: () => {},
     operation3: async () => 0
   }
-  
+
   const registrar = new MockRegistrar(mockClient)
   const proxy = createAutoRegisterProxy(registrar)
-  
+
   console.log('Before calling operation1:')
   console.log(`  - register called: ${registerCalled}`)
   console.log(`  - operation1 called: ${op1Called}`)
   console.log(`  - ensureRegistered call count: ${registrar.ensureRegisteredCallCount}`)
-  
+
   await proxy.operation1()
-  
+
   console.log('After calling operation1:')
   console.log(`  - register called: ${registerCalled}`)
   console.log(`  - operation1 called: ${op1Called}`)
   console.log(`  - ensureRegistered call count: ${registrar.ensureRegisteredCallCount}`)
   console.log(`  - registration status: ${registrar.getRegistrationStatus()}`)
-  
+
   // Call again to verify register is only called once
   await proxy.operation1()
   console.log(`After second operation1 call:`)
@@ -237,21 +236,22 @@ async function unitTest() {
 
 ## Checklist
 
-- [ ] Create `src/poc/` directory for POC implementation
-- [ ] Define the `Registerable` interface with `register()` method
-- [ ] Create the example `Client` interface for testing
-- [ ] Implement `RegisteringProxy` class that:
-  - [ ] Takes any object implementing `Registerable`
-  - [ ] Uses JavaScript Proxy to intercept method calls
-  - [ ] Automatically calls `register()` before each method (except register itself)
-  - [ ] Forwards the original method call after registration
-  - [ ] Preserves method signatures and return types
-- [ ] Create a concrete implementation of `Client` interface for testing
-- [ ] Write test scenarios to verify:
-  - [ ] Registration is called automatically before operations
-  - [ ] Method signatures are preserved
-  - [ ] Return values work correctly
-  - [ ] Async/sync methods both work
-  - [ ] Multiple calls only register once if needed
-- [ ] Add TypeScript types to ensure type safety
-- [ ] Document the POC with usage examples
+- [x] Create `src/poc/` directory for POC implementation
+- [x] Define the `Registerable` interface with `register()` method
+- [x] Create the example `Client` interface for testing
+- [x] Implement `RegisteringProxy` class that:
+  - [x] Takes any object implementing `Registerable`
+  - [x] Uses JavaScript Proxy to intercept method calls
+  - [x] Automatically calls `register()` before each method (except register itself)
+  - [x] Forwards the original method call after registration
+  - [x] Preserves method signatures and return types
+- [x] Create a concrete implementation of `Client` interface for testing
+- [x] Write test scenarios to verify:
+  - [x] Registration is called automatically before operations
+  - [x] Method signatures are preserved
+  - [x] Return values work correctly
+  - [x] Async/sync methods both work
+  - [x] Multiple calls only register once if needed
+- [x] Add TypeScript types to ensure type safety
+- [x] Document the POC with usage examples
+- [x] Add unit tests
