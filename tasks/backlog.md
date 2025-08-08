@@ -1,4 +1,4 @@
 # Backlog
 
-- Proxy RPC client registration to improve developer experience
+- Proxy RPC client registration POC
 - CI integration with GitHub Actions
