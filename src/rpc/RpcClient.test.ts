@@ -9,27 +9,21 @@ vi.mock("../utils/uuid", () => ({
   generateUUID: vi.fn(() => TEST_CLIENT_ID),
 }));
 
-// Define proper mock type for Remote<RpcWorker>
-interface MockRpcWorker {
-  registerClient: (clientId: string) => Promise<void>;
-  ping: () => Promise<string>;
-  getStatus: () => Promise<{ connected: boolean }>;
-}
-
 describe("RpcClient", () => {
-  let mockRemote: MockRpcWorker;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let mockRemote: any;
   let rpcClient: RpcClient;
 
   beforeEach(() => {
-    // Create a mock remote object with proper method signatures
+    // Create a mock remote object
     mockRemote = {
       registerClient: vi.fn().mockResolvedValue(undefined),
       ping: vi.fn().mockResolvedValue("pong from worker"),
       getStatus: vi.fn().mockResolvedValue({ connected: true }),
     };
 
-    // Type assertion is necessary here due to Comlink's complex Remote type
-    rpcClient = new RpcClient(mockRemote as never);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    rpcClient = new RpcClient(mockRemote as any);
   });
 
   describe("Registerable interface implementation", () => {
@@ -122,8 +116,10 @@ describe("RpcClient", () => {
 
   describe("constructor", () => {
     it("should generate unique client ID", () => {
-      const client1 = new RpcClient(mockRemote as never);
-      const client2 = new RpcClient(mockRemote as never);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const client1 = new RpcClient(mockRemote as any);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const client2 = new RpcClient(mockRemote as any);
 
       // Both should have the same ID since we're mocking generateUUID
       expect(client1).toBeDefined();
@@ -131,7 +127,8 @@ describe("RpcClient", () => {
     });
 
     it("should store remote reference", () => {
-      const client = new RpcClient(mockRemote as never);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const client = new RpcClient(mockRemote as any);
       expect(client).toBeDefined();
     });
   });
@@ -139,7 +136,8 @@ describe("RpcClient", () => {
   describe("type compatibility", () => {
     it("should be compatible with RpcClient interface from types", () => {
       // This test ensures the class implements the interface correctly
-      const client = new RpcClient(mockRemote as never);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const client = new RpcClient(mockRemote as any);
 
       expect(typeof client.registerClient).toBe("function");
       expect(typeof client.ping).toBe("function");
