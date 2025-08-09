@@ -71,26 +71,3 @@ export function createAutoRegisterProxyFor<T extends Registerable>(
 ): T {
   return createAutoRegisterProxy(new Registrar(client));
 }
-
-// Example interfaces
-export interface Client extends Registerable {
-  register: () => Promise<void>;
-  operation1: () => Promise<void>;
-  operation2: () => void;
-  operation3: (foo: string) => Promise<number>;
-}
-
-// Mock registrar for testing
-export class MockRegistrar<T extends Registerable> extends Registrar<T> {
-  public ensureRegisteredCallCount = 0;
-  public mockRegistered = false;
-
-  async ensureRegistered(): Promise<void> {
-    this.ensureRegisteredCallCount++;
-    if (this.mockRegistered) return;
-
-    // For testing, we can control when registration happens
-    await super.ensureRegistered();
-    this.mockRegistered = true;
-  }
-}
