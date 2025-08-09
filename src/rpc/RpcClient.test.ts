@@ -2,28 +2,34 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { RpcClient } from "./RpcClient";
 import type { Registerable } from "./types";
 
+const TEST_CLIENT_ID = "test-client-id-123";
+
 // Mock the UUID generator
 vi.mock("../utils/uuid", () => ({
-  generateUUID: vi.fn(() => "test-client-id-123"),
+  generateUUID: vi.fn(() => TEST_CLIENT_ID),
 }));
 
+// Define proper mock type for Remote<RpcWorker>
+interface MockRpcWorker {
+  registerClient: (clientId: string) => Promise<void>;
+  ping: () => Promise<string>;
+  getStatus: () => Promise<{ connected: boolean }>;
+}
+
 describe("RpcClient", () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let mockRemote: any;
+  let mockRemote: MockRpcWorker;
   let rpcClient: RpcClient;
 
   beforeEach(() => {
-    // Create a mock remote object
+    // Create a mock remote object with proper method signatures
     mockRemote = {
       registerClient: vi.fn().mockResolvedValue(undefined),
       ping: vi.fn().mockResolvedValue("pong from worker"),
       getStatus: vi.fn().mockResolvedValue({ connected: true }),
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    rpcClient = new RpcClient(mockRemote as any);
-
-    rpcClient = new RpcClient(mockRemote);
+    // Type assertion is necessary here due to Comlink's complex Remote type
+    rpcClient = new RpcClient(mockRemote as never);
   });
 
   describe("Registerable interface implementation", () => {
@@ -45,9 +51,7 @@ describe("RpcClient", () => {
       await rpcClient.register();
 
       expect(mockRemote.registerClient).toHaveBeenCalledTimes(1);
-      expect(mockRemote.registerClient).toHaveBeenCalledWith(
-        "test-client-id-123"
-      );
+      expect(mockRemote.registerClient).toHaveBeenCalledWith(TEST_CLIENT_ID);
     });
 
     it("should handle registration errors", async () => {
@@ -69,9 +73,7 @@ describe("RpcClient", () => {
       await rpcClient.registerClient();
 
       expect(registerSpy).toHaveBeenCalledTimes(1);
-      expect(mockRemote.registerClient).toHaveBeenCalledWith(
-        "test-client-id-123"
-      );
+      expect(mockRemote.registerClient).toHaveBeenCalledWith(TEST_CLIENT_ID);
     });
 
     it("should return the same result as register()", async () => {
@@ -88,7 +90,7 @@ describe("RpcClient", () => {
     it("should return pong message with client ID", async () => {
       const result = await rpcClient.ping();
 
-      expect(result).toBe("pong from client test-client-id-123");
+      expect(result).toBe(`pong from client ${TEST_CLIENT_ID}`);
     });
 
     it("should return a string", async () => {
@@ -103,7 +105,7 @@ describe("RpcClient", () => {
       const result = await rpcClient.getStatus();
 
       expect(result).toEqual({
-        clientId: "test-client-id-123",
+        clientId: TEST_CLIENT_ID,
         connected: true,
       });
     });
@@ -120,8 +122,8 @@ describe("RpcClient", () => {
 
   describe("constructor", () => {
     it("should generate unique client ID", () => {
-      const client1 = new RpcClient(mockRemote);
-      const client2 = new RpcClient(mockRemote);
+      const client1 = new RpcClient(mockRemote as never);
+      const client2 = new RpcClient(mockRemote as never);
 
       // Both should have the same ID since we're mocking generateUUID
       expect(client1).toBeDefined();
@@ -129,7 +131,7 @@ describe("RpcClient", () => {
     });
 
     it("should store remote reference", () => {
-      const client = new RpcClient(mockRemote);
+      const client = new RpcClient(mockRemote as never);
       expect(client).toBeDefined();
     });
   });
@@ -137,7 +139,7 @@ describe("RpcClient", () => {
   describe("type compatibility", () => {
     it("should be compatible with RpcClient interface from types", () => {
       // This test ensures the class implements the interface correctly
-      const client = new RpcClient(mockRemote);
+      const client = new RpcClient(mockRemote as never);
 
       expect(typeof client.registerClient).toBe("function");
       expect(typeof client.ping).toBe("function");
