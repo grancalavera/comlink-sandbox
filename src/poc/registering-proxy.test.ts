@@ -1,4 +1,4 @@
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 import {
   createAutoRegisterProxy,
   createAutoRegisterProxyFor,
@@ -8,29 +8,25 @@ import type { Client } from "./registering-proxy";
 
 describe("Auto Register Proxy", () => {
   test("should call register before operations using convenience function", async () => {
-    let registerCalled = false;
-    let op1Called = false;
+    const registerMock = vi.fn();
+    const operation1Mock = vi.fn();
 
     const client: Client = {
-      register: async () => {
-        registerCalled = true;
-      },
-      operation1: async () => {
-        op1Called = true;
-      },
+      register: registerMock,
+      operation1: operation1Mock,
       operation2: () => {},
       operation3: async () => 0,
     };
 
     const proxy = createAutoRegisterProxyFor(client);
 
-    expect(registerCalled).toBe(false);
-    expect(op1Called).toBe(false);
+    expect(registerMock).not.toHaveBeenCalled();
+    expect(operation1Mock).not.toHaveBeenCalled();
 
     await proxy.operation1();
 
-    expect(registerCalled).toBe(true);
-    expect(op1Called).toBe(true);
+    expect(registerMock).toHaveBeenCalledTimes(1);
+    expect(operation1Mock).toHaveBeenCalledTimes(1);
   });
 
   test("should track ensureRegistered calls with MockRegistrar", async () => {
@@ -59,12 +55,10 @@ describe("Auto Register Proxy", () => {
   });
 
   test("should only register once with convenience function", async () => {
-    let registerCallCount = 0;
+    const registerMock = vi.fn();
 
     const client: Client = {
-      register: async () => {
-        registerCallCount++;
-      },
+      register: registerMock,
       operation1: async () => {},
       operation2: () => {},
       operation3: async (foo: string) => foo.length,
@@ -78,17 +72,20 @@ describe("Auto Register Proxy", () => {
     proxy.operation2();
     await proxy.operation1();
 
-    expect(registerCallCount).toBe(1);
+    expect(registerMock).toHaveBeenCalledTimes(1);
   });
 
   test("should preserve method signatures and return values", async () => {
+    const registerMock = vi.fn();
+    const operation3Mock = vi.fn().mockImplementation(async (input: string) => {
+      return input.length * 2;
+    });
+
     const client: Client = {
-      register: async () => {},
+      register: registerMock,
       operation1: async () => {},
       operation2: () => {},
-      operation3: async (input: string) => {
-        return input.length * 2;
-      },
+      operation3: operation3Mock,
     };
 
     const proxy = createAutoRegisterProxyFor(client);
@@ -105,15 +102,14 @@ describe("Auto Register Proxy", () => {
     const result3 = await proxy.operation3("test");
     expect(result3).toBe(8); // "test".length * 2
     expect(typeof result3).toBe("number");
+    expect(operation3Mock).toHaveBeenCalledWith("test");
   });
 
   test("should not intercept register method calls", async () => {
-    let registerCallCount = 0;
+    const registerMock = vi.fn();
 
     const client: Client = {
-      register: async () => {
-        registerCallCount++;
-      },
+      register: registerMock,
       operation1: async () => {},
       operation2: () => {},
       operation3: async () => 0,
@@ -123,28 +119,22 @@ describe("Auto Register Proxy", () => {
 
     // Calling register directly should not trigger auto-registration
     await proxy.register();
-    expect(registerCallCount).toBe(1);
+    expect(registerMock).toHaveBeenCalledTimes(1);
 
     // Calling register again should increment the count
     await proxy.register();
-    expect(registerCallCount).toBe(2);
+    expect(registerMock).toHaveBeenCalledTimes(2);
   });
 
   test("should handle sync and async methods correctly", async () => {
-    let registerCalled = false;
-    let syncCalled = false;
-    let asyncCalled = false;
+    const registerMock = vi.fn();
+    const operation1Mock = vi.fn();
+    const operation2Mock = vi.fn();
 
     const client: Client = {
-      register: async () => {
-        registerCalled = true;
-      },
-      operation1: async () => {
-        asyncCalled = true;
-      },
-      operation2: () => {
-        syncCalled = true;
-      },
+      register: registerMock,
+      operation1: operation1Mock,
+      operation2: operation2Mock,
       operation3: async () => 0,
     };
 
@@ -152,33 +142,43 @@ describe("Auto Register Proxy", () => {
 
     // Test sync method - proxy wraps it in async, so we need to await
     await proxy.operation2();
-    expect(registerCalled).toBe(true);
-    expect(syncCalled).toBe(true);
+    expect(registerMock).toHaveBeenCalledTimes(1);
+    expect(operation2Mock).toHaveBeenCalledTimes(1);
 
-    // Reset for async test
-    registerCalled = false;
-    asyncCalled = false;
+    // Create fresh proxy for async test
+    const freshRegisterMock = vi.fn();
+    const freshClient: Client = {
+      register: freshRegisterMock,
+      operation1: operation1Mock,
+      operation2: () => {},
+      operation3: async () => 0,
+    };
 
-    const freshProxy = createAutoRegisterProxyFor(client);
+    const freshProxy = createAutoRegisterProxyFor(freshClient);
 
     // Test async method
     await freshProxy.operation1();
-    expect(registerCalled).toBe(true);
-    expect(asyncCalled).toBe(true);
+    expect(freshRegisterMock).toHaveBeenCalledTimes(1);
+    expect(operation1Mock).toHaveBeenCalledTimes(1);
   });
   test("should preserve method context and arguments", async () => {
+    const registerMock = vi.fn();
+    const operation3Mock = vi.fn().mockImplementation(async (input: string) => {
+      return input.length;
+    });
+
     const client: Client = {
-      register: async () => {},
+      register: registerMock,
       operation1: async () => {},
       operation2: () => {},
-      operation3: async (input: string) => {
-        return input.length;
-      },
+      operation3: operation3Mock,
     };
 
     const proxy = createAutoRegisterProxyFor(client);
 
     const result = await proxy.operation3("hello world");
     expect(result).toBe(11); // "hello world".length
+    expect(operation3Mock).toHaveBeenCalledWith("hello world");
+    expect(registerMock).toHaveBeenCalledTimes(1);
   });
 });
