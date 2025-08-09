@@ -2,9 +2,9 @@ import { describe, test, expect, vi } from "vitest";
 import {
   createAutoRegisterProxy,
   createAutoRegisterProxyFor,
-  MockRegistrar,
 } from "./registering-proxy";
-import type { Client } from "./registering-proxy";
+import { MockRegistrar } from "../lib-test/MockRegistrar";
+import type { Client } from "../lib-test/fixtures";
 
 describe("Auto Register Proxy", () => {
   test("should call register before operations using convenience function", async () => {
@@ -40,17 +40,17 @@ describe("Auto Register Proxy", () => {
     const mockRegistrar = new MockRegistrar(client);
     const proxy = createAutoRegisterProxy(mockRegistrar);
 
-    expect(mockRegistrar.ensureRegisteredCallCount).toBe(0);
+    expect(mockRegistrar.ensureRegisteredSpy).toHaveBeenCalledTimes(0);
     expect(mockRegistrar.getRegistrationStatus()).toBe(false);
 
     await proxy.operation1();
 
-    expect(mockRegistrar.ensureRegisteredCallCount).toBe(1);
+    expect(mockRegistrar.ensureRegisteredSpy).toHaveBeenCalledTimes(1);
     expect(mockRegistrar.getRegistrationStatus()).toBe(true);
 
     // Call again to verify ensureRegistered is called again but registration status remains true
     await proxy.operation1();
-    expect(mockRegistrar.ensureRegisteredCallCount).toBe(2);
+    expect(mockRegistrar.ensureRegisteredSpy).toHaveBeenCalledTimes(2);
     expect(mockRegistrar.getRegistrationStatus()).toBe(true);
   });
 
