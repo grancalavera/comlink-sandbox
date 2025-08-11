@@ -11,10 +11,3 @@ export interface RpcClient {
 }
 
 export type RpcWorker = WithIndexedOperations<RpcClient>;
-
-// Re-export registrar utilities for convenience
-export {
-  Registrar,
-  createAutoRegisterProxy,
-  createAutoRegisterProxyFor,
-} from "./registrar";
