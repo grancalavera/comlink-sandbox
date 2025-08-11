@@ -1,6 +1,10 @@
 # AGENTS.md
 
-This file provides guidance to coding agents when working with code in this repository.
+This file provides guidance to coding agents when working with code in this repository
+
+## Working relationship
+
+We're working together in this project. Don't say "You" or "I", use "we" instead.
 
 ## Architecture & Tech Stack
 
